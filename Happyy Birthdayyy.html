@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Selamat Ulang Tahun</title>
+  <style>
+    body, html {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #fff0f5;
+    }
+
+    .page {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      padding: 20px;
+      text-align: center;
+    }
+
+    .page.active {
+      display: flex;
+    }
+
+    img {
+      width: 60%;
+      max-width: 400px;
+      height: auto;
+      border-radius: 20px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.2);
+      margin-bottom: 20px;
+    }
+
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: #ff69b4;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      margin: 10px 5px;
+    }
+
+    h1, p {
+      color: #d63384;
+    }
+
+    audio {
+      display: none;
+    }
+
+    .btn-group {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+  </style>
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+</head>
+<body>
+  <audio autoplay loop>
+    <source src="assets/audio/lagu.mp3" type="audio/mpeg">
+    Browser tidak mendukung audio.
+  </audio>
+
+  <!-- Halaman 1 -->
+  <div class="page active">
+    <h1>Happy Birthday 🎉</h1>
+    <p>Semoga harimu penuh kebahagiaan dan cinta!</p>
+    <div class="btn-group">
+      <button onclick="nextPage()">Lanjut</button>
+    </div>
+  </div>
+
+  <!-- Halaman 2 - Foto 1 -->
+  <div class="page">
+    <img src="assets/images/foto1.jpg" alt="Kenangan 1" />
+    <p>Terima kasih sudah menjadi orang yang selalu bisa diandalkan.</p>
+    <div class="btn-group">
+      <button onclick="prevPage()">Kembali</button>
+      <button onclick="nextPage()">Lanjut</button>
+    </div>
+  </div>
+
+  <!-- Halaman 3 - Foto 2 -->
+  <div class="page">
+    <img src="assets/images/foto2.jpg" alt="Kenangan 2" />
+    <p>Kenangan bersamamu selalu menyenangkan!</p>
+    <div class="btn-group">
+      <button onclick="prevPage()">Kembali</button>
+      <button onclick="nextPage()">Lanjut</button>
+    </div>
+  </div>
+
+  <!-- Halaman 4 - Foto 3 -->
+  <div class="page">
+    <img src="assets/images/foto3.jpg" alt="Kenangan 3" />
+    <p>Kamu pantas mendapatkan yang terbaik hari ini dan setiap hari.</p>
+    <div class="btn-group">
+      <button onclick="prevPage()">Kembali</button>
+      <button onclick="nextPage()">Lanjut</button>
+    </div>
+  </div>
+
+  <!-- Halaman 5 - Foto 4 -->
+  <div class="page">
+    <img src="assets/images/foto4.jpg" alt="Kenangan 4" />
+    <p>Semoga harimu spesial seperti kamu bagi banyak orang 💗</p>
+    <div class="btn-group">
+      <button onclick="prevPage()">Kembali</button>
+      <button onclick="nextPage()">Lanjut</button>
+    </div>
+  </div>
+
+  <!-- Halaman 6 - Foto 5 -->
+  <div class="page">
+    <img src="assets/images/foto5.jpg" alt="Kenangan 5" />
+    <p>Aku bersyukur bisa mengenalmu dan berbagi momen indah ini ✨</p>
+    <div class="btn-group">
+      <button onclick="prevPage()">Kembali</button>
+      <button onclick="nextPage()">Lanjut</button>
+    </div>
+  </div>
+
+  <!-- Halaman 7 - Penutup -->
+  <div class="page">
+    <h1>Selamat Ulang Tahun 🎂</h1>
+    <p>Aku harap hari ini memberikan banyak senyum dan kejutan indah untukmu.</p>
+    <p>🎈 Terima kasih sudah menjadi sosok yang luar biasa 🎈</p>
+    <div class="btn-group">
+      <button onclick="goToStart()">Kembali ke Awal</button>
+    </div>
+  </div>
+
+  <script>
+    const pages = document.querySelectorAll('.page');
+    let current = 0;
+
+    function showPage(index) {
+      pages.forEach(p => p.classList.remove('active'));
+      pages[index].classList.add('active');
+      current = index;
+
+      if (index === 0) {
+        showHearts(); // Confetti hanya saat halaman awal
+      }
+    }
+
+    function nextPage() {
+      if (current < pages.length - 1) {
+        showPage(current + 1);
+      }
+    }
+
+    function prevPage() {
+      if (current > 0) {
+        showPage(current - 1);
+      }
+    }
+
+    function goToStart() {
+      showPage(0);
+    }
+
+    function showHearts() {
+      const duration = 2000;
+      const animationEnd = Date.now() + duration;
+      const defaults = { startVelocity: 25, spread: 360, ticks: 200, zIndex: 0 };
+
+      const interval = setInterval(function () {
+        const timeLeft = animationEnd - Date.now();
+
+        if (timeLeft <= 0) {
+          return clearInterval(interval);
+        }
+
+        confetti({
+          ...defaults,
+          particleCount: 20,
+          shapes: ['heart'],
+          scalar: 1.2,
+          origin: {
+            x: Math.random(),
+            y: Math.random() * 0.5
+          },
+          colors: ['#ff69b4', '#ff1493', '#ff85a1', '#ffc0cb']
+        });
+      }, 150);
+    }
+
+    // Tampilkan halaman pertama saat dimulai
+    showPage(0);
+  </script>
+</body>
+</html>
